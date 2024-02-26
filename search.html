@@ -64,41 +64,38 @@
     let Type = document.getElementById("type").value;
     let BackWood = document.getElementById("backwood").value;
     let TopWood = document.getElementById("topwood").value;
-    for (guitar of guitars){
-        if ((!Builder && !Model && !Type && !BackWood && !TopWood ) || (Type === guitar.Type && Model === guitar.Model && Builder === guitar.Builder)){
-            const row = document.createElement("tr")
-            const serialNumber = document.createElement("td")
-            serialNumber.innerText = guitar.SerialNumber
-            const price = document.createElement("td")
-            price.innerText = guitar.Price
-            const builder = document.createElement("td")
-            builder.innerText = guitar.Builder
-            const model = document.createElement("td")
-            model.innerText = guitar.Model
-            const type = document.createElement("td")
-            type.innerText = guitar.Type
-            const backWood = document.createElement("td")
-            backWood.innerText = guitar.BackWood
-            const topWood = document.createElement("td")
-            topWood.innerText = guitar.TopWood
-            row.appendChild(serialNumber)
-            row.appendChild(builder)
-            row.appendChild(type)
-            row.appendChild(model)
-            row.appendChild(backWood)
-            row.appendChild(topWood)
-            row.appendChild(price)
-            document.getElementById("table-body").appendChild(row)
-            
+    let newGuitar = {
+    
+    "builder": Builder,
+    "model": Model,
+    "type": Type,
+    "backWood": BackWood,
+    "topWood" : TopWood}
 
-            
-
-            
+    async function SearchGuitar(newGuitar){
+        const request = ('${host}/inventory/search'+ new URLSearchParams({serialNumber: newGuitar.serialNumber, price: newGuitar.price, builder: newGuitar.builder, model: newGuitar.model, type: newGuitar.type, backWood: newGuitar.backWood, topWood: newGuitar.topWood}).toString())
+        let response = await fetch(request)
+        if (response.ok){
+            let data = await response.json()
+            console.log(data)
+            data.forEach((guitar)=>{
+                let row = document.createElement('tr')
+                row.innerHTML = `<td>${guitar.serialNumber}</td>
+                <td>${guitar.builder}</td>
+                <td>${guitar.type}</td>
+                <td>${guitar.model}</td>
+                <td>${guitar.backWood}</td>
+                <td>${guitar.topWood}</td>
+                <td>${guitar.price}</td>`
+                tableData.appendChild(row)
+            })
         }
-       
     }
+    const button = document.getElementById('submit')
+    button.addEventListener('click',SearchGuitar(newGuitar) )
+    
 
-        })
+            })
     </script>
     
 </body>

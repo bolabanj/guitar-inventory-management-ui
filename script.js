@@ -1,9 +1,11 @@
 
-let guitars = [{SerialNumber: 100,Price: 500, Builder: "Fender",  Model:"nModel", Type:"Acoustic" , BackWood:" Mahogany" , TopWood:"Oak"  }, {SerialNumber: 200,Price: 450, Builder: "Yamaha",  Model:"CSG102QA", Type:"Acoustic" , BackWood:" Mahogany" , TopWood:"Oak"  }, {SerialNumber: 300,Price: 500, Builder: "Taylor",  Model:"bbBuilder", Type:"Electric" , BackWood:"N/A" , TopWood:"Oak"  }, {SerialNumber: 400,Price: 1000, Builder: "Fender",  Model:"SSAS", Type:"Acoustic" , BackWood:" Oak" , TopWood:"Oak"  }, {SerialNumber: 500,Price: 200, Builder: "nBuilder",  Model:"Fender", Type:"Acoustic" , BackWood:" Sap" , TopWood:"Bamboo"  }]
 
 
-function addGuitar(){
-    
+let host = "http://localhost:8080/"
+
+
+async function addGuitar(){
+    console.log("Adding guitar");
     let SerialNumber = document.getElementById("serialNumber").value;
     let Price = document.getElementById("price").value;
     let Builder = document.getElementById("builder").value;
@@ -11,8 +13,32 @@ function addGuitar(){
     let Type = document.getElementById("type").value;
     let BackWood = document.getElementById("backwood").value;
     let TopWood = document.getElementById("topwood").value;
-    guitars.push({SerialNumber,Price,Builder,Model,Type,BackWood,TopWood});
-    alert(JSON.stringify(guitars));
+    if (SerialNumber == "" || Price == "" || Builder == "" || Model == "" || Type == "" || BackWood == "" || TopWood == "") {
+        alert("All fields are required");
+        return;
+    }
+    let guitars = {"serialNumber": SerialNumber,
+    "price": Price,
+    "builder": Builder,
+    "model": Model,
+    "type": Type,
+    "backWood": BackWood,
+    "topWood" : TopWood}
+    let request = {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(guitars)
+    }
+    let response = await fetch(host + "inventory/add", request);
+    console.log(response.status);
+    if (response.ok) {
+        alert("The guitar was added to the system");
+    }else{
+        alert("Something went wrong. Please try again or contact the customer support team.");
+    }
+    
     
 }
 
