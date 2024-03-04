@@ -1,7 +1,7 @@
 
 
 
-let host = "http://localhost:8080/"
+let host = "https://guitar-inventory-management-latest-dcrh.onrender.com"
 
 
 async function addGuitar(){
