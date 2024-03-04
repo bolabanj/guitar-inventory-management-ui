@@ -73,7 +73,7 @@
     "topWood" : TopWood}
 
     async function SearchGuitar(newGuitar){
-        const request = ('${host}/inventory/search'+ new URLSearchParams({serialNumber: newGuitar.serialNumber, price: newGuitar.price, builder: newGuitar.builder, model: newGuitar.model, type: newGuitar.type, backWood: newGuitar.backWood, topWood: newGuitar.topWood}).toString())
+        const request = ('http://localhost:8080/inventory/search?'+ new URLSearchParams({ builder: newGuitar.builder, model: newGuitar.model, type: newGuitar.type, backWood: newGuitar.backWood, topWood: newGuitar.topWood}).toString())
         let response = await fetch(request)
         if (response.ok){
             let data = await response.json()
