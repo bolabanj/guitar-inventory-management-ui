@@ -1,7 +1,7 @@
 
 
 
-let host = "https://guitar-inventory-management-latest-dcrh.onrender.com"
+let host = getHost(); // getHost() is a function from configuration.js
 
 
 async function addGuitar(){
@@ -28,6 +28,7 @@ async function addGuitar(){
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + configuration.token()
         },
         body: JSON.stringify(guitars)
     }

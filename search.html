@@ -8,12 +8,13 @@
     <script src="script.js"></script>
 </head>
 <body>
-    <nav>
-        <ul>
+    <nav >
+        <ul class="topnav">
             <li><a href="index.html">Guitar Inventory Management</a></li>
             <li><a href="about.html" class="secondary-nav">About</a></li>
             <li><a href="add.html" class="secondary-nav">Add</a></li>
             <li><a href="search.html" class="secondary-nav">Search</a></li>
+            <li><a href="login.html" class="secondary-nav"></a></li>
         </ul>
     </nav>
 
@@ -73,8 +74,16 @@
     "topWood" : TopWood}
 
     async function SearchGuitar(newGuitar){
-        const request = ('https://guitar-inventory-management-latest-dcrh.onrender.com/search?'+ new URLSearchParams({ builder: newGuitar.builder, model: newGuitar.model, type: newGuitar.type, backWood: newGuitar.backWood, topWood: newGuitar.topWood}).toString())
-        let response = await fetch(request)
+        let request = {
+            method: "POST", 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${configuration.token()}`
+            },
+            body: JSON.stringify({ builder: newGuitar.builder, model: newGuitar.model, type: newGuitar.type, backWood: newGuitar.backWood, topWood: newGuitar.topWood})
+        }
+
+        let response = await fetch(getHost() + "/search", request)
         if (response.ok){
             let data = await response.json()
             console.log(data)
@@ -97,6 +106,7 @@
 
             })
     </script>
+    <script src="configuration.js"></script>
     
 </body>
 </html>
